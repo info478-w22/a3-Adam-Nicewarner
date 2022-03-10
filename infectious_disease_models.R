@@ -1,8 +1,4 @@
-#install.packages("dcm")
-#install.packages("EpiModel", dependencies = TRUE)
-
 require(EpiModel)
-#require(dcm)
 
 #################################################################################
 #### Deterministic compartmental models
@@ -10,8 +6,8 @@ require(EpiModel)
 
 ######## Basic SI model 
 
-param <- param.dcm(inf.prob = 0.5, act.rate = c(2))
-init <- init.dcm(s.num = 999, i.num = 1)
+param <- param.dcm(inf.prob = 0.52, act.rate = c(2))
+init <- init.dcm(s.num = 320000000, i.num = 1)
 control <- control.dcm(type = "SI", nsteps = 365)
 
 
@@ -25,9 +21,9 @@ comp_plot(mod, at = 2, digits = 1)
 
 ########### SIS model 
 
-param <- param.dcm(inf.prob = 0.3, act.rate = 1, rec.rate = 0.05)
+param <- param.dcm(inf.prob = 0.3, act.rate = 1, rec.rate = 0.1)
 
-init <- init.dcm(s.num = 999, i.num = 4)
+init <- init.dcm(s.num = 320000000, i.num = 4)
 control <- control.dcm(type = "SIS", nsteps = 500, dt = 0.5)
 mod <- dcm(param, init, control)
 
@@ -51,9 +47,9 @@ comp_plot(mod, at = 2, digits = 1)
 
 ########### SIR model 
 
-param <- param.dcm(inf.prob = 0.3, act.rate = 0.1, rec.rate = 0.005)
+param <- param.dcm(inf.prob = 0.52, act.rate = 0.1, rec.rate = 0.018)
 
-init <- init.dcm(s.num = 999, i.num = 4,r.num = 0)
+init <- init.dcm(s.num = 320000000, i.num = 4000000,r.num = 0)
 control <- control.dcm(type = "SIR", nsteps = 500, dt = 0.5)
 mod <- dcm(param, init, control)
 
@@ -140,3 +136,9 @@ plot(mod.icm, qnts = FALSE, sim.lines = FALSE, add = TRUE, mean.lty = 2, legend 
 
 
 dev.off()
+
+param <- param.icm(inf.prob = 0.2, act.rate = 0.25)
+init <- init.icm(s.num = 500, i.num = 1)
+control <- control.icm(type = "SI", nsims = 10, nsteps = 300)
+mod <- icm(param, init, control)
+plot(mod)
